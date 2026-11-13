@@ -11,3 +11,4 @@ echo 2. Launching Frontend on Expo...
 start "RoomMates Frontend" cmd /c "%~dp0Start-Frontend.bat"
 echo.
 echo Done! Two windows opened for Backend and Frontend.
+

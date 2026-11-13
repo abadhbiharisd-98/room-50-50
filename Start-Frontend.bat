@@ -10,3 +10,4 @@ echo Or scan QR Code from Expo Go app on your phone
 echo.
 call npx expo start
 pause
+
