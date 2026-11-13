@@ -12,28 +12,32 @@ export default function ContributionCard({ summary, userA, userB }) {
     totalShareBPaise,
   } = summary;
 
-  // Percentage of total expenses paid by each
   const percentA = totalMonthlyPaise > 0 ? Math.round((totalPaidByAPaise / totalMonthlyPaise) * 100) : 50;
   const percentB = 100 - percentA;
 
   return (
     <View style={styles.card}>
       <View style={styles.headerRow}>
-        <Text style={styles.sectionTitle}>ROOMMATES BREAKDOWN</Text>
-        <Text style={styles.subtext}>Monthly Split (50% Each)</Text>
+        <View style={styles.titleRow}>
+          <Text style={styles.sectionTitle}>ROOMMATES SPLIT</Text>
+          <View style={styles.pill5050}>
+            <Text style={styles.pill5050Text}>50% Target</Text>
+          </View>
+        </View>
+        <Text style={styles.subtext}>Monthly Contribution</Text>
       </View>
 
-      {/* Two Column Comparison */}
+      {/* Two Column Comparison Cards */}
       <View style={styles.columnsWrapper}>
         {/* User A Column */}
         <View style={[styles.userBox, styles.userBoxA]}>
           <View style={styles.userHeader}>
-            <View style={[styles.avatarBadge, { backgroundColor: '#DBEAFE' }]}>
+            <View style={[styles.avatarBadge, { backgroundColor: '#EFF6FF', borderColor: '#BFDBFE' }]}>
               <Text style={styles.avatarText}>{userA.avatar || '👨‍💼'}</Text>
             </View>
             <View style={styles.userNameBlock}>
               <Text style={styles.userName} numberOfLines={1}>{userA.shortName}</Text>
-              <Text style={styles.userTag}>Roommate A</Text>
+              <Text style={[styles.userTag, { color: COLORS.accent }]}>Roommate A</Text>
             </View>
           </View>
 
@@ -53,12 +57,12 @@ export default function ContributionCard({ summary, userA, userB }) {
         {/* User B Column */}
         <View style={[styles.userBox, styles.userBoxB]}>
           <View style={styles.userHeader}>
-            <View style={[styles.avatarBadge, { backgroundColor: '#D1FAE5' }]}>
+            <View style={[styles.avatarBadge, { backgroundColor: '#ECFDF5', borderColor: '#A7F3D0' }]}>
               <Text style={styles.avatarText}>{userB.avatar || '🧑‍💻'}</Text>
             </View>
             <View style={styles.userNameBlock}>
               <Text style={styles.userName} numberOfLines={1}>{userB.shortName}</Text>
-              <Text style={styles.userTag}>Roommate B</Text>
+              <Text style={[styles.userTag, { color: COLORS.successDark }]}>Roommate B</Text>
             </View>
           </View>
 
@@ -76,13 +80,22 @@ export default function ContributionCard({ summary, userA, userB }) {
         </View>
       </View>
 
-      {/* Dynamic Ratio Progress Bar */}
+      {/* Progress Ratio Bar */}
       <View style={styles.progressSection}>
         <View style={styles.ratioHeader}>
-          <Text style={styles.ratioTextA}>{userA.shortName}: {percentA}%</Text>
-          <Text style={styles.ratioTitle}>Payment Distribution</Text>
-          <Text style={styles.ratioTextB}>{userB.shortName}: {percentB}%</Text>
+          <View style={styles.ratioLabelRow}>
+            <View style={[styles.legendDot, { backgroundColor: COLORS.accent }]} />
+            <Text style={styles.ratioTextA}>{userA.shortName}: {percentA}%</Text>
+          </View>
+
+          <Text style={styles.ratioTitle}>Payment Ratio</Text>
+
+          <View style={styles.ratioLabelRow}>
+            <View style={[styles.legendDot, { backgroundColor: COLORS.success }]} />
+            <Text style={styles.ratioTextB}>{userB.shortName}: {percentB}%</Text>
+          </View>
         </View>
+
         <View style={styles.progressBarTrack}>
           <View style={[styles.progressBarFillA, { width: `${percentA}%` }]} />
           <View style={[styles.progressBarFillB, { width: `${percentB}%` }]} />
@@ -94,14 +107,14 @@ export default function ContributionCard({ summary, userA, userB }) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: COLORS.cardBg,
-    borderRadius: 20,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 22,
     padding: SPACING.lg,
     marginHorizontal: SPACING.lg,
     marginBottom: SPACING.md,
     ...SHADOWS.card,
     borderWidth: 1,
-    borderColor: COLORS.border,
+    borderColor: '#E2E8F0',
   },
   headerRow: {
     flexDirection: 'row',
@@ -109,15 +122,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: SPACING.md,
   },
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
   sectionTitle: {
     fontSize: 11,
     fontWeight: '800',
-    color: COLORS.textSecondary,
+    color: '#334155',
     letterSpacing: 0.8,
+  },
+  pill5050: {
+    backgroundColor: '#EFF6FF',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 6,
+  },
+  pill5050Text: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: COLORS.accent,
   },
   subtext: {
     fontSize: 11,
-    color: COLORS.textMuted,
+    color: '#94A3B8',
   },
   columnsWrapper: {
     flexDirection: 'row',
@@ -125,7 +154,7 @@ const styles = StyleSheet.create({
   },
   userBox: {
     flex: 1,
-    borderRadius: 16,
+    borderRadius: 18,
     padding: SPACING.md,
     borderWidth: 1,
   },
@@ -144,75 +173,89 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.sm,
   },
   avatarBadge: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 1,
   },
   avatarText: {
-    fontSize: 16,
+    fontSize: 18,
   },
   userNameBlock: {
     flex: 1,
   },
   userName: {
     fontSize: 13,
-    fontWeight: '700',
-    color: COLORS.textPrimary,
+    fontWeight: '800',
+    color: '#0F172A',
   },
   userTag: {
     fontSize: 10,
-    color: COLORS.textMuted,
+    fontWeight: '600',
   },
   amountBlock: {
     marginTop: 4,
   },
   amountLabel: {
     fontSize: 10,
-    color: COLORS.textSecondary,
+    color: '#64748B',
     marginBottom: 2,
+    fontWeight: '500',
   },
   amountValue: {
-    fontSize: 18,
-    fontWeight: '800',
+    fontSize: 19,
+    fontWeight: '900',
+    letterSpacing: -0.3,
   },
   shareBlock: {
     marginTop: 8,
-    paddingTop: 6,
+    paddingTop: 8,
     borderTopWidth: 1,
-    borderTopColor: '#E2E8F0',
+    borderTopColor: 'rgba(226, 232, 240, 0.8)',
   },
   shareLabel: {
     fontSize: 10,
-    color: COLORS.textMuted,
+    color: '#94A3B8',
   },
   shareValue: {
     fontSize: 12,
-    fontWeight: '600',
-    color: COLORS.textSecondary,
+    fontWeight: '700',
+    color: '#475569',
   },
   progressSection: {
-    marginTop: SPACING.md,
+    marginTop: SPACING.lg,
   },
   ratioHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 6,
+    marginBottom: 8,
+  },
+  ratioLabelRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+  },
+  legendDot: {
+    width: 7,
+    height: 7,
+    borderRadius: 4,
   },
   ratioTextA: {
     fontSize: 11,
-    fontWeight: '700',
+    fontWeight: '800',
     color: COLORS.accent,
   },
   ratioTitle: {
     fontSize: 10,
-    color: COLORS.textMuted,
+    color: '#94A3B8',
+    fontWeight: '600',
   },
   ratioTextB: {
     fontSize: 11,
-    fontWeight: '700',
+    fontWeight: '800',
     color: COLORS.successDark,
   },
   progressBarTrack: {
@@ -231,4 +274,3 @@ const styles = StyleSheet.create({
     height: '100%',
   },
 });
-

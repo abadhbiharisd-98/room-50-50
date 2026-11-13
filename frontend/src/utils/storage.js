@@ -1,21 +1,21 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const EXPENSES_STORAGE_KEY = '@roommates_expenses_v1';
-export const ROOMMATES_STORAGE_KEY = '@roommates_users_v1';
+export const EXPENSES_STORAGE_KEY = '@roommates_expenses_v2';
+export const ROOMMATES_STORAGE_KEY = '@roommates_users_v2';
 
 export const DEFAULT_ROOMMATES = {
   userA: {
     id: 'user_a',
-    name: 'Rahul (You)',
-    shortName: 'Rahul',
+    name: 'Abadh (You)',
+    shortName: 'Abadh',
     avatar: '👨‍💼',
     color: '#2563EB',
   },
   userB: {
     id: 'user_b',
-    name: 'Amit (Roommate)',
-    shortName: 'Amit',
-    avatar: '🧑‍💻',
+    name: 'Mahesh Singer',
+    shortName: 'Mahesh Singer',
+    avatar: '🎤',
     color: '#059669',
   },
 };
@@ -38,7 +38,7 @@ const getInitialSeedExpenses = () => {
       shareAPaise: 600000,
       shareBPaise: 600000,
       date: day(1),
-      description: 'Monthly flat rent paid to landlord via UPI',
+      description: 'Monthly flat rent paid to landlord via UPI by Abadh',
       createdAt: new Date(year, now.getMonth(), 1).toISOString(),
     },
     {
@@ -51,7 +51,7 @@ const getInitialSeedExpenses = () => {
       shareAPaise: 210000,
       shareBPaise: 210000,
       date: day(3),
-      description: 'Rice, Atta, Dal, Oil, Spices and snacks for the month',
+      description: 'Rice, Atta, Dal, Oil, Spices and snacks by Mahesh Singer',
       createdAt: new Date(year, now.getMonth(), 3).toISOString(),
     },
     {
@@ -64,7 +64,7 @@ const getInitialSeedExpenses = () => {
       shareAPaise: 92500,
       shareBPaise: 92500,
       date: day(5),
-      description: 'State Electricity Board bill payment',
+      description: 'State Electricity Board bill payment by Abadh',
       createdAt: new Date(year, now.getMonth(), 5).toISOString(),
     },
     {
@@ -77,7 +77,7 @@ const getInitialSeedExpenses = () => {
       shareAPaise: 37500,
       shareBPaise: 37500,
       date: day(7),
-      description: 'Weekly mandi purchase',
+      description: 'Weekly mandi purchase by Mahesh Singer',
       createdAt: new Date(year, now.getMonth(), 7).toISOString(),
     },
     {
@@ -90,7 +90,7 @@ const getInitialSeedExpenses = () => {
       shareAPaise: 49950,
       shareBPaise: 49950,
       date: day(10),
-      description: '100 Mbps Unlimited monthly plan recharge',
+      description: '100 Mbps Unlimited monthly plan recharge by Mahesh Singer',
       createdAt: new Date(year, now.getMonth(), 10).toISOString(),
     },
   ];
@@ -102,7 +102,7 @@ export const getStoredExpenses = async () => {
     if (json !== null) {
       return JSON.parse(json);
     }
-    // Agar pehli baar open ho raha hai, seed data initialize karein
+    // Seed initial realistic expenses
     const seed = getInitialSeedExpenses();
     await AsyncStorage.setItem(EXPENSES_STORAGE_KEY, JSON.stringify(seed));
     return seed;
@@ -146,4 +146,3 @@ export const resetToSampleData = async () => {
     throw error;
   }
 };
-

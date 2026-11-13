@@ -67,13 +67,13 @@ exports.getMonthlyReport = async (req, res) => {
       debtor = memberB;
       creditor = memberA;
       owedAmountPaise = netBalanceAPaise;
-      settlementText = `${memberB ? memberB.name : 'Roommate B'} owes ${memberA ? memberA.name : 'Roommate A'} ₹${(owedAmountPaise / 100).toLocaleString('en-IN')}`;
+      settlementText = `${memberB ? memberB.name : 'Mahesh Singer'} owes ${memberA ? memberA.name : 'Abadh'} ₹${(owedAmountPaise / 100).toLocaleString('en-IN')}`;
     } else if (netBalanceAPaise < 0) {
       isSettled = false;
       debtor = memberA;
       creditor = memberB;
       owedAmountPaise = Math.abs(netBalanceAPaise);
-      settlementText = `${memberA ? memberA.name : 'Roommate A'} owes ${memberB ? memberB.name : 'Roommate B'} ₹${(owedAmountPaise / 100).toLocaleString('en-IN')}`;
+      settlementText = `${memberA ? memberA.name : 'Abadh'} owes ${memberB ? memberB.name : 'Mahesh Singer'} ₹${(owedAmountPaise / 100).toLocaleString('en-IN')}`;
     }
 
     const categorySummary = Object.keys(categoryTotals).map((catId) => ({

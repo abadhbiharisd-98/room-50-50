@@ -5,13 +5,12 @@ import { COLORS, SPACING, SHADOWS } from '../constants/theme';
 import { getCategoryById } from '../constants/categories';
 import { formatCurrency } from '../utils/calculations';
 
-export default function ExpenseCard({ expense, userA, userB, onPress, onDelete }) {
+export default function ExpenseCard({ expense, userA, userB, onPress }) {
   const category = getCategoryById(expense.category);
   const isPaidByA = expense.paidBy === userA.id;
   const payerName = isPaidByA ? userA.shortName : userB.shortName;
   const payerColor = isPaidByA ? COLORS.accent : COLORS.successDark;
 
-  // Format date cleanly
   const formatDate = (dateStr) => {
     if (!dateStr) return '';
     try {
@@ -29,7 +28,7 @@ export default function ExpenseCard({ expense, userA, userB, onPress, onDelete }
       onPress={() => onPress && onPress(expense)}
     >
       {/* Category Icon */}
-      <View style={[styles.iconContainer, { backgroundColor: category.bg }]}>
+      <View style={[styles.iconContainer, { backgroundColor: category.bg, borderColor: `${category.color}25` }]}>
         <Ionicons name={category.icon} size={22} color={category.color} />
       </View>
 
@@ -50,51 +49,56 @@ export default function ExpenseCard({ expense, userA, userB, onPress, onDelete }
           <Text style={styles.dateText}>{formatDate(expense.date)}</Text>
 
           {/* Split indicator */}
-          <Text style={styles.splitIndicator}>
-            {expense.splitType === 'EQUAL_50_50' ? '50/50' : 'Custom'}
-          </Text>
+          <View style={styles.splitBadge}>
+            <Text style={styles.splitIndicator}>
+              {expense.splitType === 'EQUAL_50_50' ? '50/50' : 'Custom'}
+            </Text>
+          </View>
         </View>
       </View>
 
-      {/* Amount and Action */}
+      {/* Amount and Share */}
       <View style={styles.amountBlock}>
         <Text style={styles.amountText}>{formatCurrency(expense.amountPaise)}</Text>
         <Text style={styles.shareText}>
-          {formatCurrency(expense.shareAPaise || Math.floor(expense.amountPaise / 2))}/ea
+          {formatCurrency(expense.shareAPaise || Math.floor(expense.amountPaise / 2))} /ea
         </Text>
       </View>
+
+      <Ionicons name="chevron-forward" size={14} color="#CBD5E1" style={{ marginLeft: 6 }} />
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: COLORS.cardBg,
-    borderRadius: 16,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 18,
     padding: SPACING.md,
     marginHorizontal: SPACING.lg,
-    marginBottom: SPACING.sm,
+    marginBottom: 10,
     flexDirection: 'row',
     alignItems: 'center',
-    ...SHADOWS.small,
+    ...SHADOWS.subtle,
     borderWidth: 1,
-    borderColor: COLORS.border,
+    borderColor: '#E2E8F0',
   },
   iconContainer: {
-    width: 46,
-    height: 46,
-    borderRadius: 14,
+    width: 48,
+    height: 48,
+    borderRadius: 16,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: SPACING.md,
+    borderWidth: 1,
   },
   detailsBlock: {
     flex: 1,
   },
   title: {
     fontSize: 14,
-    fontWeight: '700',
-    color: COLORS.textPrimary,
+    fontWeight: '800',
+    color: '#0F172A',
     marginBottom: 4,
   },
   metaRow: {
@@ -105,8 +109,8 @@ const styles = StyleSheet.create({
   payerBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 6,
-    paddingVertical: 2,
+    paddingHorizontal: 7,
+    paddingVertical: 2.5,
     borderRadius: 6,
     gap: 4,
   },
@@ -121,30 +125,34 @@ const styles = StyleSheet.create({
   },
   dateText: {
     fontSize: 11,
-    color: COLORS.textMuted,
+    color: '#94A3B8',
+    fontWeight: '500',
+  },
+  splitBadge: {
+    backgroundColor: '#F1F5F9',
+    paddingHorizontal: 5,
+    paddingVertical: 1.5,
+    borderRadius: 4,
   },
   splitIndicator: {
     fontSize: 10,
-    color: '#64748B',
-    backgroundColor: '#F1F5F9',
-    paddingHorizontal: 4,
-    paddingVertical: 1,
-    borderRadius: 4,
-    fontWeight: '600',
+    color: '#475569',
+    fontWeight: '700',
   },
   amountBlock: {
     alignItems: 'flex-end',
-    marginLeft: SPACING.sm,
+    marginLeft: SPACING.xs,
   },
   amountText: {
     fontSize: 15,
-    fontWeight: '800',
-    color: COLORS.textPrimary,
+    fontWeight: '900',
+    color: '#0F172A',
+    letterSpacing: -0.3,
   },
   shareText: {
     fontSize: 10,
-    color: COLORS.textMuted,
+    color: '#94A3B8',
     marginTop: 2,
+    fontWeight: '600',
   },
 });
-

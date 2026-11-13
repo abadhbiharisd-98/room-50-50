@@ -137,11 +137,11 @@ export default function DashboardScreen() {
         {/* Room & Roommates Avatars */}
         <View style={styles.headerRight}>
           <View style={styles.avatarGroup}>
-            <View style={[styles.miniAvatar, { backgroundColor: '#3B82F6' }]}>
-              <Text style={styles.miniAvatarText}>R</Text>
-            </View>
-            <View style={[styles.miniAvatar, { backgroundColor: '#10B981', marginLeft: -8 }]}>
+            <View style={[styles.miniAvatar, { backgroundColor: '#2563EB' }]}>
               <Text style={styles.miniAvatarText}>A</Text>
+            </View>
+            <View style={[styles.miniAvatar, { backgroundColor: '#059669', marginLeft: -8 }]}>
+              <Text style={styles.miniAvatarText}>M</Text>
             </View>
           </View>
           <TouchableOpacity onPress={handleResetData} style={styles.resetBtn} accessibilityLabel="Reset demo data">
@@ -336,29 +336,35 @@ export default function DashboardScreen() {
 const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: '#F8FAFC',
   },
   topHeader: {
-    backgroundColor: COLORS.primaryDark,
+    backgroundColor: '#070B19',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: SPACING.lg,
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight || 12 : 12,
     paddingBottom: SPACING.md,
+    borderBottomWidth: 1,
+    borderBottomColor: '#1E293B',
   },
   headerLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: 12,
   },
   appIconCircle: {
-    width: 38,
-    height: 38,
-    borderRadius: 12,
-    backgroundColor: COLORS.accent,
+    width: 40,
+    height: 40,
+    borderRadius: 14,
+    backgroundColor: '#2563EB',
     justifyContent: 'center',
     alignItems: 'center',
+    shadowColor: '#2563EB',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.4,
+    shadowRadius: 8,
   },
   appNameRow: {
     flexDirection: 'row',
@@ -366,18 +372,18 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   appName: {
-    fontSize: 18,
-    fontWeight: '800',
+    fontSize: 19,
+    fontWeight: '900',
     color: '#FFFFFF',
-    letterSpacing: -0.3,
+    letterSpacing: -0.4,
   },
   badge5050: {
-    backgroundColor: 'rgba(16, 185, 129, 0.25)',
-    paddingHorizontal: 6,
+    backgroundColor: 'rgba(16, 185, 129, 0.2)',
+    paddingHorizontal: 7,
     paddingVertical: 2,
-    borderRadius: 6,
+    borderRadius: 8,
     borderWidth: 1,
-    borderColor: 'rgba(16, 185, 129, 0.5)',
+    borderColor: 'rgba(16, 185, 129, 0.4)',
   },
   badge5050Text: {
     fontSize: 10,
@@ -387,22 +393,24 @@ const styles = StyleSheet.create({
   appSub: {
     fontSize: 11,
     color: '#94A3B8',
+    fontWeight: '500',
+    marginTop: 1,
   },
   headerRight: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: 10,
   },
   avatarGroup: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   miniAvatar: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
     borderWidth: 2,
-    borderColor: COLORS.primaryDark,
+    borderColor: '#070B19',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -412,19 +420,22 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   resetBtn: {
-    padding: 6,
-    borderRadius: 8,
+    width: 32,
+    height: 32,
+    borderRadius: 10,
     backgroundColor: '#1E293B',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   monthBar: {
-    backgroundColor: '#1E293B',
+    backgroundColor: '#0F172A',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: SPACING.lg,
-    paddingVertical: 8,
+    paddingVertical: 9,
     borderBottomWidth: 1,
-    borderBottomColor: '#334155',
+    borderBottomColor: '#1E293B',
   },
   monthCenter: {
     flexDirection: 'row',
@@ -432,9 +443,10 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   monthText: {
-    color: '#F1F5F9',
+    color: '#F8FAFC',
     fontSize: 13,
-    fontWeight: '700',
+    fontWeight: '800',
+    letterSpacing: 0.2,
   },
   monthArrow: {
     padding: 4,
@@ -453,7 +465,8 @@ const styles = StyleSheet.create({
   loaderText: {
     marginTop: 10,
     fontSize: 14,
-    color: COLORS.textSecondary,
+    color: '#64748B',
+    fontWeight: '600',
   },
   filterSection: {
     marginHorizontal: SPACING.lg,
@@ -463,18 +476,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    paddingHorizontal: 12,
-    height: 44,
+    borderRadius: 14,
+    paddingHorizontal: 14,
+    height: 46,
     borderWidth: 1,
-    borderColor: COLORS.border,
+    borderColor: '#E2E8F0',
     marginBottom: SPACING.sm,
+    ...SHADOWS.subtle,
   },
   searchInput: {
     flex: 1,
     marginLeft: 8,
     fontSize: 14,
-    color: COLORS.textPrimary,
+    color: '#0F172A',
+    fontWeight: '500',
   },
   filterScroll: {
     gap: 8,
@@ -483,26 +498,26 @@ const styles = StyleSheet.create({
   filterPill: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 5,
-    paddingHorizontal: 12,
-    paddingVertical: 7,
-    borderRadius: 20,
+    gap: 6,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 22,
     backgroundColor: '#FFFFFF',
     borderWidth: 1,
-    borderColor: COLORS.border,
+    borderColor: '#E2E8F0',
   },
   filterPillActive: {
-    backgroundColor: COLORS.primary,
-    borderColor: COLORS.primary,
+    backgroundColor: '#0B132B',
+    borderColor: '#0B132B',
   },
   filterPillText: {
     fontSize: 12,
-    fontWeight: '600',
-    color: COLORS.textSecondary,
+    fontWeight: '700',
+    color: '#475569',
   },
   filterPillTextActive: {
     color: '#FFFFFF',
-    fontWeight: '700',
+    fontWeight: '800',
   },
   sectionHeaderRow: {
     flexDirection: 'row',
@@ -513,14 +528,15 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.sm,
   },
   sectionTitle: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '800',
-    color: COLORS.textSecondary,
+    color: '#334155',
     letterSpacing: 0.8,
   },
   sectionSub: {
     fontSize: 11,
-    color: COLORS.textMuted,
+    color: '#94A3B8',
+    fontWeight: '500',
   },
   emptyState: {
     alignItems: 'center',
@@ -528,9 +544,10 @@ const styles = StyleSheet.create({
     paddingVertical: 40,
     marginHorizontal: SPACING.lg,
     backgroundColor: '#FFFFFF',
-    borderRadius: 16,
+    borderRadius: 20,
     borderWidth: 1,
-    borderColor: COLORS.border,
+    borderColor: '#E2E8F0',
+    ...SHADOWS.subtle,
   },
   emptyIconBox: {
     width: 64,
@@ -543,35 +560,37 @@ const styles = StyleSheet.create({
   },
   emptyTitle: {
     fontSize: 16,
-    fontWeight: '700',
-    color: COLORS.textPrimary,
+    fontWeight: '800',
+    color: '#0F172A',
     marginBottom: 4,
   },
   emptySubtitle: {
     fontSize: 12,
-    color: COLORS.textMuted,
+    color: '#94A3B8',
     textAlign: 'center',
     paddingHorizontal: 20,
+    lineHeight: 18,
   },
   fabButton: {
     position: 'absolute',
     bottom: 24,
     right: 20,
-    backgroundColor: COLORS.primary,
+    backgroundColor: '#2563EB',
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    paddingHorizontal: 20,
+    paddingHorizontal: 22,
     paddingVertical: 14,
-    borderRadius: 28,
-    ...SHADOWS.floating,
+    borderRadius: 30,
+    ...SHADOWS.fab,
     borderWidth: 1,
-    borderColor: '#334155',
+    borderColor: '#3B82F6',
   },
   fabText: {
     color: '#FFFFFF',
     fontSize: 15,
-    fontWeight: '700',
+    fontWeight: '800',
+    letterSpacing: 0.2,
   },
 });
 

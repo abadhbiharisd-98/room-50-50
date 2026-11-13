@@ -11,8 +11,13 @@ export default function CategorySummary({ summaryList }) {
   return (
     <View style={styles.card}>
       <View style={styles.header}>
-        <Text style={styles.title}>CATEGORY BREAKDOWN</Text>
-        <Text style={styles.subtext}>Monthly Spending Distribution</Text>
+        <View style={styles.titleRow}>
+          <Text style={styles.title}>CATEGORY BREAKDOWN</Text>
+          <View style={styles.badgeTop}>
+            <Text style={styles.badgeTopText}>Top Spends</Text>
+          </View>
+        </View>
+        <Text style={styles.subtext}>Monthly Distribution</Text>
       </View>
 
       <View style={styles.list}>
@@ -20,8 +25,8 @@ export default function CategorySummary({ summaryList }) {
           const category = getCategoryById(item.categoryId);
           return (
             <View key={item.categoryId} style={styles.itemRow}>
-              {/* Category Icon & Name */}
-              <View style={[styles.iconBox, { backgroundColor: category.bg }]}>
+              {/* Category Icon */}
+              <View style={[styles.iconBox, { backgroundColor: category.bg, borderColor: `${category.color}25` }]}>
                 <Ionicons name={category.icon} size={16} color={category.color} />
               </View>
 
@@ -36,13 +41,15 @@ export default function CategorySummary({ summaryList }) {
                   <View
                     style={[
                       styles.fill,
-                      { width: `${Math.min(100, Math.max(5, item.percentage))}%`, backgroundColor: category.color },
+                      { width: `${Math.min(100, Math.max(6, item.percentage))}%`, backgroundColor: category.color },
                     ]}
                   />
                 </View>
               </View>
 
-              <Text style={styles.percentText}>{item.percentage}%</Text>
+              <View style={[styles.percentBadge, { backgroundColor: category.bg }]}>
+                <Text style={[styles.percentText, { color: category.color }]}>{item.percentage}%</Text>
+              </View>
             </View>
           );
         })}
@@ -53,14 +60,14 @@ export default function CategorySummary({ summaryList }) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: COLORS.cardBg,
-    borderRadius: 20,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 22,
     padding: SPACING.lg,
     marginHorizontal: SPACING.lg,
     marginBottom: SPACING.md,
     ...SHADOWS.card,
     borderWidth: 1,
-    borderColor: COLORS.border,
+    borderColor: '#E2E8F0',
   },
   header: {
     flexDirection: 'row',
@@ -68,15 +75,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: SPACING.md,
   },
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
   title: {
     fontSize: 11,
     fontWeight: '800',
-    color: COLORS.textSecondary,
+    color: '#334155',
     letterSpacing: 0.8,
+  },
+  badgeTop: {
+    backgroundColor: '#F1F5F9',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+  },
+  badgeTopText: {
+    fontSize: 9,
+    fontWeight: '700',
+    color: '#64748B',
   },
   subtext: {
     fontSize: 11,
-    color: COLORS.textMuted,
+    color: '#94A3B8',
   },
   list: {
     gap: 12,
@@ -87,11 +110,12 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   iconBox: {
-    width: 32,
-    height: 32,
-    borderRadius: 10,
+    width: 36,
+    height: 36,
+    borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 1,
   },
   nameAndBar: {
     flex: 1,
@@ -99,17 +123,17 @@ const styles = StyleSheet.create({
   labelRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 4,
+    marginBottom: 5,
   },
   categoryName: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: COLORS.textPrimary,
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#0F172A',
   },
   amountText: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: COLORS.textPrimary,
+    fontSize: 13,
+    fontWeight: '800',
+    color: '#0F172A',
   },
   track: {
     height: 6,
@@ -121,12 +145,13 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 3,
   },
+  percentBadge: {
+    paddingHorizontal: 7,
+    paddingVertical: 3,
+    borderRadius: 6,
+  },
   percentText: {
     fontSize: 11,
-    fontWeight: '700',
-    color: COLORS.textMuted,
-    width: 34,
-    textAlign: 'right',
+    fontWeight: '800',
   },
 });
-
