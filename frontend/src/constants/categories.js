@@ -81,3 +81,4 @@ export const EXPENSE_CATEGORIES = [
 export const getCategoryById = (id) => {
   return EXPENSE_CATEGORIES.find((cat) => cat.id === id) || EXPENSE_CATEGORIES[EXPENSE_CATEGORIES.length - 1];
 };
+

@@ -93,3 +93,4 @@ Hamara calculation engine `src/utils/calculations.js` floating-point rounding er
 - [ ] **Phase 4: Real-time Socket.IO Synchronization between 2 Phones**
 - [ ] **Phase 5: Settlement Recording & Monthly History Reports**
 - [ ] **Phase 6: Google Play Store EAS Build (.aab) & Production Release**
+
