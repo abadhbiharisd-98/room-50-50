@@ -1,0 +1,20 @@
+{
+  "name": "roommates-expense-splitter",
+  "version": "1.0.0",
+  "description": "RoomMates - 50/50 Shared Expense Splitter App",
+  "main": "frontend/index.js",
+  "scripts": {
+    "start": "npm --prefix frontend start",
+    "android": "npm --prefix frontend run android",
+    "ios": "npm --prefix frontend run ios",
+    "web": "npm --prefix frontend run web"
+  },
+  "keywords": [
+    "react-native",
+    "expo",
+    "expense-splitter",
+    "roommates"
+  ],
+  "author": "",
+  "license": "ISC"
+}

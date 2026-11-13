@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SPACING, SHADOWS } from '../constants/theme';
 import { formatCurrency } from '../utils/calculations';
 
@@ -232,3 +231,4 @@ const styles = StyleSheet.create({
     height: '100%',
   },
 });
+

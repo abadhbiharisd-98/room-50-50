@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const EXPENSES_STORAGE_KEY = '@roommates_expenses_v1';
-const ROOMMATES_STORAGE_KEY = '@roommates_users_v1';
+export const EXPENSES_STORAGE_KEY = '@roommates_expenses_v1';
+export const ROOMMATES_STORAGE_KEY = '@roommates_users_v1';
 
 export const DEFAULT_ROOMMATES = {
   userA: {
@@ -146,3 +146,4 @@ export const resetToSampleData = async () => {
     throw error;
   }
 };
+

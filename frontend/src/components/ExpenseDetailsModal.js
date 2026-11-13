@@ -79,14 +79,14 @@ export default function ExpenseDetailsModal({ visible, expense, onClose, onDelet
             {/* Shares */}
             <View style={styles.splitBox}>
               <View style={styles.splitItem}>
-                <Text style={styles.splitUser}>{userA.shortName}&apos;s Share</Text>
+                <Text style={styles.splitUser}>{`${userA.shortName}'s Share`}</Text>
                 <Text style={styles.splitAmount}>
                   {formatCurrency(expense.shareAPaise || Math.floor(expense.amountPaise / 2))}
                 </Text>
               </View>
               <View style={styles.splitDivider} />
               <View style={styles.splitItem}>
-                <Text style={styles.splitUser}>{userB.shortName}&apos;s Share</Text>
+                <Text style={styles.splitUser}>{`${userB.shortName}'s Share`}</Text>
                 <Text style={styles.splitAmount}>
                   {formatCurrency(expense.shareBPaise || Math.ceil(expense.amountPaise / 2))}
                 </Text>
@@ -258,3 +258,4 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
 });
+

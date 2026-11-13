@@ -9,9 +9,9 @@ import {
   StatusBar,
   RefreshControl,
   ActivityIndicator,
-  SafeAreaView,
   Platform,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SPACING, SHADOWS } from '../constants/theme';
 import { EXPENSE_CATEGORIES } from '../constants/categories';
@@ -144,7 +144,7 @@ export default function DashboardScreen() {
               <Text style={styles.miniAvatarText}>A</Text>
             </View>
           </View>
-          <TouchableOpacity onPress={handleResetData} style={styles.resetBtn} title="Reset demo data">
+          <TouchableOpacity onPress={handleResetData} style={styles.resetBtn} accessibilityLabel="Reset demo data">
             <Ionicons name="refresh-outline" size={18} color="#94A3B8" />
           </TouchableOpacity>
         </View>
@@ -574,3 +574,4 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
 });
+

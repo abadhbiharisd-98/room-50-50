@@ -9,7 +9,6 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
-  Alert,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SPACING, SHADOWS } from '../constants/theme';
@@ -560,3 +559,4 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
 });
+
