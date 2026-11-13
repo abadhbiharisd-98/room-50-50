@@ -8,3 +8,4 @@ router.use(protect);
 router.route('/').post(recordSettlement).get(getSettlements);
 
 module.exports = router;
+

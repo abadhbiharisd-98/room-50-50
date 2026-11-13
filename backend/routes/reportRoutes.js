@@ -10,3 +10,4 @@ router.get('/category-summary', getMonthlyReport);
 router.get('/balance', getMonthlyReport);
 
 module.exports = router;
+

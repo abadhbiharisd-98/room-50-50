@@ -41,3 +41,4 @@ roomSchema.statics.generateInviteCode = function () {
 };
 
 module.exports = mongoose.model('Room', roomSchema);
+
