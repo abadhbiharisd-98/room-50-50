@@ -5,12 +5,13 @@ import { COLORS, SPACING, SHADOWS } from '../constants/theme';
 import { getCategoryById } from '../constants/categories';
 import { formatCurrency } from '../utils/calculations';
 
-export default function ExpenseCard({ expense, userA, userB, onPress }) {
+export default function ExpenseCard({ expense, userA, userB, onPress, onDelete }) {
   const category = getCategoryById(expense.category);
   const isPaidByA = expense.paidBy === userA.id;
   const payerName = isPaidByA ? userA.shortName : userB.shortName;
   const payerColor = isPaidByA ? COLORS.accent : COLORS.successDark;
 
+  // Format date cleanly
   const formatDate = (dateStr) => {
     if (!dateStr) return '';
     try {
@@ -23,101 +24,95 @@ export default function ExpenseCard({ expense, userA, userB, onPress }) {
 
   return (
     <TouchableOpacity
-      style={styles.card}
       activeOpacity={0.7}
+      style={styles.card}
       onPress={() => onPress && onPress(expense)}
     >
       {/* Category Icon */}
-      <View style={[styles.iconContainer, { backgroundColor: category.bg, borderColor: `${category.color}25` }]}>
+      <View style={[styles.iconContainer, { backgroundColor: category.bg }]}>
         <Ionicons name={category.icon} size={22} color={category.color} />
       </View>
 
-      {/* Details */}
+      {/* Details (Title, Who Paid, Date) */}
       <View style={styles.detailsBlock}>
-        <Text style={styles.title} numberOfLines={1}>{expense.title}</Text>
-        
+        <Text style={styles.title} numberOfLines={1}>
+          {expense.title}
+        </Text>
         <View style={styles.metaRow}>
-          {/* Payer Pill */}
-          <View style={[styles.payerBadge, { backgroundColor: isPaidByA ? '#EFF6FF' : '#F0FDF4' }]}>
-            <View style={[styles.payerDot, { backgroundColor: payerColor }]} />
+          {/* Payer pill */}
+          <View style={[styles.payerBadge, { backgroundColor: isPaidByA ? '#EFF6FF' : '#ECFDF5' }]}>
+            <Ionicons
+              name={isPaidByA ? 'person' : 'person-outline'}
+              size={11}
+              color={payerColor}
+            />
             <Text style={[styles.payerText, { color: payerColor }]}>
-              {payerName} paid
+              {payerName}
             </Text>
           </View>
 
-          {/* Date */}
           <Text style={styles.dateText}>{formatDate(expense.date)}</Text>
 
           {/* Split indicator */}
-          <View style={styles.splitBadge}>
-            <Text style={styles.splitIndicator}>
-              {expense.splitType === 'EQUAL_50_50' ? '50/50' : 'Custom'}
-            </Text>
-          </View>
+          <Text style={styles.splitIndicator}>
+            {expense.splitType === 'EQUAL_50_50' ? '50/50' : 'Custom'}
+          </Text>
         </View>
       </View>
 
-      {/* Amount and Share */}
+      {/* Amount and Action */}
       <View style={styles.amountBlock}>
         <Text style={styles.amountText}>{formatCurrency(expense.amountPaise)}</Text>
         <Text style={styles.shareText}>
-          {formatCurrency(expense.shareAPaise || Math.floor(expense.amountPaise / 2))} /ea
+          {formatCurrency(expense.shareAPaise || Math.floor(expense.amountPaise / 2))}/ea
         </Text>
       </View>
-
-      <Ionicons name="chevron-forward" size={14} color="#CBD5E1" style={{ marginLeft: 6 }} />
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 18,
+    backgroundColor: COLORS.cardBg,
+    borderRadius: 16,
     padding: SPACING.md,
     marginHorizontal: SPACING.lg,
-    marginBottom: 10,
+    marginBottom: SPACING.sm,
     flexDirection: 'row',
     alignItems: 'center',
-    ...SHADOWS.subtle,
+    ...SHADOWS.small,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
+    borderColor: COLORS.border,
   },
   iconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 16,
+    width: 46,
+    height: 46,
+    borderRadius: 14,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: SPACING.md,
-    borderWidth: 1,
   },
   detailsBlock: {
     flex: 1,
   },
   title: {
     fontSize: 14,
-    fontWeight: '800',
-    color: '#0F172A',
+    fontWeight: '700',
+    color: COLORS.textPrimary,
     marginBottom: 4,
   },
   metaRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    gap: 8,
   },
   payerBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 7,
-    paddingVertical: 2.5,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
     borderRadius: 6,
     gap: 4,
-  },
-  payerDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
   },
   payerText: {
     fontSize: 11,
@@ -125,34 +120,29 @@ const styles = StyleSheet.create({
   },
   dateText: {
     fontSize: 11,
-    color: '#94A3B8',
-    fontWeight: '500',
-  },
-  splitBadge: {
-    backgroundColor: '#F1F5F9',
-    paddingHorizontal: 5,
-    paddingVertical: 1.5,
-    borderRadius: 4,
+    color: COLORS.textMuted,
   },
   splitIndicator: {
     fontSize: 10,
-    color: '#475569',
-    fontWeight: '700',
+    color: '#64748B',
+    backgroundColor: '#F1F5F9',
+    paddingHorizontal: 4,
+    paddingVertical: 1,
+    borderRadius: 4,
+    fontWeight: '600',
   },
   amountBlock: {
     alignItems: 'flex-end',
-    marginLeft: SPACING.xs,
+    marginLeft: SPACING.sm,
   },
   amountText: {
     fontSize: 15,
-    fontWeight: '900',
-    color: '#0F172A',
-    letterSpacing: -0.3,
+    fontWeight: '800',
+    color: COLORS.textPrimary,
   },
   shareText: {
     fontSize: 10,
-    color: '#94A3B8',
+    color: COLORS.textMuted,
     marginTop: 2,
-    fontWeight: '600',
   },
 });

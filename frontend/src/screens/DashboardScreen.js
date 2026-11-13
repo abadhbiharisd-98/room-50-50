@@ -137,10 +137,10 @@ export default function DashboardScreen() {
         {/* Room & Roommates Avatars */}
         <View style={styles.headerRight}>
           <View style={styles.avatarGroup}>
-            <View style={[styles.miniAvatar, { backgroundColor: '#2563EB' }]}>
+            <View style={[styles.miniAvatar, { backgroundColor: '#3B82F6' }]}>
               <Text style={styles.miniAvatarText}>A</Text>
             </View>
-            <View style={[styles.miniAvatar, { backgroundColor: '#059669', marginLeft: -8 }]}>
+            <View style={[styles.miniAvatar, { backgroundColor: '#10B981', marginLeft: -8 }]}>
               <Text style={styles.miniAvatarText}>M</Text>
             </View>
           </View>
@@ -150,30 +150,31 @@ export default function DashboardScreen() {
         </View>
       </View>
 
-      {/* Month Selector Bar */}
+      {/* Month Bar */}
       <View style={styles.monthBar}>
         <TouchableOpacity style={styles.monthArrow}>
-          <Ionicons name="chevron-back" size={18} color="#CBD5E1" />
+          <Ionicons name="chevron-back" size={18} color="#94A3B8" />
         </TouchableOpacity>
         <View style={styles.monthCenter}>
-          <Ionicons name="calendar" size={14} color="#38BDF8" />
+          <Ionicons name="calendar" size={14} color={COLORS.accentLight} />
           <Text style={styles.monthText}>{currentMonthName}</Text>
         </View>
         <TouchableOpacity style={styles.monthArrow}>
-          <Ionicons name="chevron-forward" size={18} color="#CBD5E1" />
+          <Ionicons name="chevron-forward" size={18} color="#94A3B8" />
         </TouchableOpacity>
       </View>
 
-      {/* Main Content ScrollView */}
+      {/* Main Content Area */}
       {loading ? (
         <View style={styles.loaderCenter}>
           <ActivityIndicator size="large" color={COLORS.accent} />
-          <Text style={styles.loaderText}>Loading expenses...</Text>
+          <Text style={styles.loaderText}>Calculating Room Expenses...</Text>
         </View>
       ) : (
         <ScrollView
           style={styles.mainScroll}
           contentContainerStyle={styles.mainScrollContent}
+          showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
@@ -182,21 +183,20 @@ export default function DashboardScreen() {
               tintColor={COLORS.accent}
             />
           }
-          showsVerticalScrollIndicator={false}
         >
-          {/* 1. Main Balance Card (Who Owes Whom) */}
+          {/* Main 50-50 Balance & Settlement Card */}
           <BalanceCard summary={summary} userA={userA} userB={userB} />
 
-          {/* 2. Roommates Contribution Comparison */}
+          {/* Roommates Breakdown Card */}
           <ContributionCard summary={summary} userA={userA} userB={userB} />
 
-          {/* 3. Category Breakdown */}
-          <CategorySummary summaryList={summary.categorySummaryList} />
+          {/* Category-wise Breakdown */}
+          <CategorySummary summaryList={summary.categorySummary} />
 
-          {/* 4. Search and Filter Bar */}
+          {/* Filter & Search Bar */}
           <View style={styles.filterSection}>
             <View style={styles.searchBar}>
-              <Ionicons name="search-outline" size={18} color={COLORS.textMuted} />
+              <Ionicons name="search" size={18} color={COLORS.textMuted} />
               <TextInput
                 style={styles.searchInput}
                 placeholder="Search expenses..."
@@ -204,11 +204,11 @@ export default function DashboardScreen() {
                 value={searchQuery}
                 onChangeText={setSearchQuery}
               />
-              {searchQuery ? (
+              {searchQuery.length > 0 && (
                 <TouchableOpacity onPress={() => setSearchQuery('')}>
                   <Ionicons name="close-circle" size={18} color={COLORS.textMuted} />
                 </TouchableOpacity>
-              ) : null}
+              )}
             </View>
 
             {/* Category Filter Pills */}
@@ -218,11 +218,11 @@ export default function DashboardScreen() {
               contentContainerStyle={styles.filterScroll}
             >
               <TouchableOpacity
+                onPress={() => setSelectedCategoryFilter('ALL')}
                 style={[
                   styles.filterPill,
                   selectedCategoryFilter === 'ALL' && styles.filterPillActive,
                 ]}
-                onPress={() => setSelectedCategoryFilter('ALL')}
               >
                 <Text
                   style={[
@@ -235,25 +235,27 @@ export default function DashboardScreen() {
               </TouchableOpacity>
 
               {EXPENSE_CATEGORIES.map((cat) => {
-                const isSelected = selectedCategoryFilter === cat.id;
+                const count = expenses.filter((e) => e.category === cat.id).length;
+                if (count === 0 && selectedCategoryFilter !== cat.id) return null;
+                const isActive = selectedCategoryFilter === cat.id;
                 return (
                   <TouchableOpacity
                     key={cat.id}
-                    style={[styles.filterPill, isSelected && styles.filterPillActive]}
                     onPress={() => setSelectedCategoryFilter(cat.id)}
+                    style={[styles.filterPill, isActive && styles.filterPillActive]}
                   >
                     <Ionicons
                       name={cat.icon}
                       size={14}
-                      color={isSelected ? '#FFFFFF' : cat.color}
+                      color={isActive ? '#FFFFFF' : cat.color}
                     />
                     <Text
                       style={[
                         styles.filterPillText,
-                        isSelected && styles.filterPillTextActive,
+                        isActive && styles.filterPillTextActive,
                       ]}
                     >
-                      {cat.name}
+                      {cat.label} ({count})
                     </Text>
                   </TouchableOpacity>
                 );
@@ -261,27 +263,25 @@ export default function DashboardScreen() {
             </ScrollView>
           </View>
 
-          {/* 5. Expense History List Header */}
+          {/* Recent Expenses List Header */}
           <View style={styles.sectionHeaderRow}>
-            <View>
-              <Text style={styles.sectionTitle}>EXPENSE HISTORY</Text>
-              <Text style={styles.sectionSub}>
-                {filteredExpenses.length} {filteredExpenses.length === 1 ? 'expense' : 'expenses'} recorded
-              </Text>
-            </View>
+            <Text style={styles.sectionTitle}>
+              EXPENSES ({filteredExpenses.length})
+            </Text>
+            <Text style={styles.sectionSub}>Tap for details</Text>
           </View>
 
-          {/* Expenses List */}
+          {/* Expense Cards */}
           {filteredExpenses.length === 0 ? (
             <View style={styles.emptyState}>
               <View style={styles.emptyIconBox}>
-                <Ionicons name="receipt-outline" size={36} color={COLORS.textMuted} />
+                <Ionicons name="receipt-outline" size={32} color={COLORS.textMuted} />
               </View>
               <Text style={styles.emptyTitle}>No Expenses Found</Text>
               <Text style={styles.emptySubtitle}>
                 {searchQuery || selectedCategoryFilter !== 'ALL'
-                  ? 'No matching expenses for the selected filter.'
-                  : 'Start tracking by tapping "+ Add Expense" below!'}
+                  ? 'No matching expense for the applied filter.'
+                  : 'Tap the "+ Add Expense" button below to add your first expense.'}
               </Text>
             </View>
           ) : (
@@ -301,13 +301,13 @@ export default function DashboardScreen() {
         </ScrollView>
       )}
 
-      {/* Floating Action Button (FAB) */}
+      {/* Floating Add Expense Action Button */}
       <TouchableOpacity
-        style={styles.fabButton}
         activeOpacity={0.85}
+        style={styles.fabButton}
         onPress={() => setAddModalVisible(true)}
       >
-        <Ionicons name="add" size={26} color="#FFFFFF" />
+        <Ionicons name="add" size={24} color="#FFFFFF" />
         <Text style={styles.fabText}>Add Expense</Text>
       </TouchableOpacity>
 
@@ -316,6 +316,7 @@ export default function DashboardScreen() {
         visible={addModalVisible}
         onClose={() => setAddModalVisible(false)}
         onSave={handleAddExpense}
+        onAddExpense={handleAddExpense}
         userA={userA}
         userB={userB}
       />
@@ -324,10 +325,10 @@ export default function DashboardScreen() {
       <ExpenseDetailsModal
         visible={!!selectedExpense}
         expense={selectedExpense}
-        onClose={() => setSelectedExpense(null)}
-        onDelete={handleDeleteExpense}
         userA={userA}
         userB={userB}
+        onClose={() => setSelectedExpense(null)}
+        onDelete={handleDeleteExpense}
       />
     </SafeAreaView>
   );
@@ -336,35 +337,29 @@ export default function DashboardScreen() {
 const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
-    backgroundColor: '#F8FAFC',
+    backgroundColor: COLORS.background,
   },
   topHeader: {
-    backgroundColor: '#070B19',
+    backgroundColor: COLORS.primaryDark,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: SPACING.lg,
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight || 12 : 12,
     paddingBottom: SPACING.md,
-    borderBottomWidth: 1,
-    borderBottomColor: '#1E293B',
   },
   headerLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: 10,
   },
   appIconCircle: {
-    width: 40,
-    height: 40,
-    borderRadius: 14,
-    backgroundColor: '#2563EB',
+    width: 38,
+    height: 38,
+    borderRadius: 12,
+    backgroundColor: COLORS.accent,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#2563EB',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.4,
-    shadowRadius: 8,
   },
   appNameRow: {
     flexDirection: 'row',
@@ -372,18 +367,18 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   appName: {
-    fontSize: 19,
-    fontWeight: '900',
+    fontSize: 18,
+    fontWeight: '800',
     color: '#FFFFFF',
-    letterSpacing: -0.4,
+    letterSpacing: -0.3,
   },
   badge5050: {
-    backgroundColor: 'rgba(16, 185, 129, 0.2)',
-    paddingHorizontal: 7,
+    backgroundColor: 'rgba(16, 185, 129, 0.25)',
+    paddingHorizontal: 6,
     paddingVertical: 2,
-    borderRadius: 8,
+    borderRadius: 6,
     borderWidth: 1,
-    borderColor: 'rgba(16, 185, 129, 0.4)',
+    borderColor: 'rgba(16, 185, 129, 0.5)',
   },
   badge5050Text: {
     fontSize: 10,
@@ -393,24 +388,22 @@ const styles = StyleSheet.create({
   appSub: {
     fontSize: 11,
     color: '#94A3B8',
-    fontWeight: '500',
-    marginTop: 1,
   },
   headerRight: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: 12,
   },
   avatarGroup: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   miniAvatar: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
+    width: 28,
+    height: 28,
+    borderRadius: 14,
     borderWidth: 2,
-    borderColor: '#070B19',
+    borderColor: COLORS.primaryDark,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -420,22 +413,19 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   resetBtn: {
-    width: 32,
-    height: 32,
-    borderRadius: 10,
+    padding: 6,
+    borderRadius: 8,
     backgroundColor: '#1E293B',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   monthBar: {
-    backgroundColor: '#0F172A',
+    backgroundColor: '#1E293B',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: SPACING.lg,
-    paddingVertical: 9,
+    paddingVertical: 8,
     borderBottomWidth: 1,
-    borderBottomColor: '#1E293B',
+    borderBottomColor: '#334155',
   },
   monthCenter: {
     flexDirection: 'row',
@@ -443,10 +433,9 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   monthText: {
-    color: '#F8FAFC',
+    color: '#F1F5F9',
     fontSize: 13,
-    fontWeight: '800',
-    letterSpacing: 0.2,
+    fontWeight: '700',
   },
   monthArrow: {
     padding: 4,
@@ -465,8 +454,7 @@ const styles = StyleSheet.create({
   loaderText: {
     marginTop: 10,
     fontSize: 14,
-    color: '#64748B',
-    fontWeight: '600',
+    color: COLORS.textSecondary,
   },
   filterSection: {
     marginHorizontal: SPACING.lg,
@@ -476,20 +464,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
-    borderRadius: 14,
-    paddingHorizontal: 14,
-    height: 46,
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    height: 44,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
+    borderColor: COLORS.border,
     marginBottom: SPACING.sm,
-    ...SHADOWS.subtle,
   },
   searchInput: {
     flex: 1,
     marginLeft: 8,
     fontSize: 14,
-    color: '#0F172A',
-    fontWeight: '500',
+    color: COLORS.textPrimary,
   },
   filterScroll: {
     gap: 8,
@@ -498,26 +484,26 @@ const styles = StyleSheet.create({
   filterPill: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-    borderRadius: 22,
+    gap: 5,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+    borderRadius: 20,
     backgroundColor: '#FFFFFF',
     borderWidth: 1,
-    borderColor: '#E2E8F0',
+    borderColor: COLORS.border,
   },
   filterPillActive: {
-    backgroundColor: '#0B132B',
-    borderColor: '#0B132B',
+    backgroundColor: COLORS.primary,
+    borderColor: COLORS.primary,
   },
   filterPillText: {
     fontSize: 12,
-    fontWeight: '700',
-    color: '#475569',
+    fontWeight: '600',
+    color: COLORS.textSecondary,
   },
   filterPillTextActive: {
     color: '#FFFFFF',
-    fontWeight: '800',
+    fontWeight: '700',
   },
   sectionHeaderRow: {
     flexDirection: 'row',
@@ -528,15 +514,14 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.sm,
   },
   sectionTitle: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '800',
-    color: '#334155',
+    color: COLORS.textSecondary,
     letterSpacing: 0.8,
   },
   sectionSub: {
     fontSize: 11,
-    color: '#94A3B8',
-    fontWeight: '500',
+    color: COLORS.textMuted,
   },
   emptyState: {
     alignItems: 'center',
@@ -544,10 +529,9 @@ const styles = StyleSheet.create({
     paddingVertical: 40,
     marginHorizontal: SPACING.lg,
     backgroundColor: '#FFFFFF',
-    borderRadius: 20,
+    borderRadius: 16,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
-    ...SHADOWS.subtle,
+    borderColor: COLORS.border,
   },
   emptyIconBox: {
     width: 64,
@@ -560,37 +544,34 @@ const styles = StyleSheet.create({
   },
   emptyTitle: {
     fontSize: 16,
-    fontWeight: '800',
-    color: '#0F172A',
+    fontWeight: '700',
+    color: COLORS.textPrimary,
     marginBottom: 4,
   },
   emptySubtitle: {
     fontSize: 12,
-    color: '#94A3B8',
+    color: COLORS.textMuted,
     textAlign: 'center',
     paddingHorizontal: 20,
-    lineHeight: 18,
   },
   fabButton: {
     position: 'absolute',
     bottom: 24,
     right: 20,
-    backgroundColor: '#2563EB',
+    backgroundColor: COLORS.primary,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    paddingHorizontal: 22,
+    paddingHorizontal: 20,
     paddingVertical: 14,
-    borderRadius: 30,
-    ...SHADOWS.fab,
+    borderRadius: 28,
+    ...SHADOWS.floating,
     borderWidth: 1,
-    borderColor: '#3B82F6',
+    borderColor: '#334155',
   },
   fabText: {
     color: '#FFFFFF',
     fontSize: 15,
-    fontWeight: '800',
-    letterSpacing: 0.2,
+    fontWeight: '700',
   },
 });
-

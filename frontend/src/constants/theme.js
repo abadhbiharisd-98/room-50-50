@@ -1,43 +1,35 @@
 export const COLORS = {
-  // Deep Midnight Navy Palette (Executive / Premium Brand)
-  primary: '#0B132B',       // Deepest Navy
-  primaryDark: '#070B19',   // Header / StatusBar background
-  primaryCard: '#1C2541',   // Card surface for dark cards
-  primaryBorder: '#2E3A59', // Border for dark elements
-  
-  // Electric & Royal Blue Accents
-  accent: '#2563EB',        // Royal Blue 600
-  accentLight: '#3B82F6',   // Blue 500
-  accentGlow: '#60A5FA',    // Light Blue for highlights
-  accentSoft: '#EFF6FF',    // Ultra-light blue tint
-  accentBorder: '#BFDBFE',
+  // Navy Blue Palette (Primary Brand)
+  primary: '#0F172A',      // Slate 900 - Deep Navy
+  primaryDark: '#0A0F1D',  // Header / Top background
+  primaryLight: '#1E293B', // Slate 800 - Secondary dark card
+  accent: '#2563EB',       // Blue 600 - Action buttons / Links
+  accentLight: '#3B82F6',  // Blue 500
+  accentSoft: '#EFF6FF',   // Very light blue for chips
 
-  // Emerald Greens for Settlements & Success
-  success: '#10B981',       // Emerald 500
-  successDark: '#059669',   // Emerald 600
-  successLight: '#ECFDF5',  // Emerald 50
-  successBorder: '#A7F3D0', // Emerald 200
-  successText: '#065F46',
+  // Greens for Settlements & Positive Balance
+  success: '#10B981',      // Emerald 500
+  successDark: '#059669',  // Emerald 600
+  successLight: '#D1FAE5', // Emerald 100 - Pill background
+  successBorder: '#A7F3D0',
 
-  // Coral & Amber Alerts
-  danger: '#EF4444',        // Red 500
-  dangerLight: '#FEF2F2',   // Red 50
-  dangerBorder: '#FECACA',
-  warning: '#F59E0B',       // Amber 500
-  warningLight: '#FFFBEB',  // Amber 50
-  warningBorder: '#FDE68A',
+  // Alert & Danger
+  danger: '#EF4444',       // Red 500
+  dangerLight: '#FEE2E2',  // Red 100
+  warning: '#F59E0B',      // Amber 500
+  warningLight: '#FEF3C7', // Amber 100
 
-  // Clean Surfaces & Backgrounds
-  background: '#F8FAFC',    // Slate 50 - Ultra clean light background
-  cardBg: '#FFFFFF',        // Pure white for content cards
-  cardHover: '#F1F5F9',     // Slate 100
-  border: '#E2E8F0',        // Slate 200 - Subtle card border
-  borderLight: '#F1F5F9',   // Slate 100
+  // Background & Surfaces
+  background: '#F8FAFC',   // Slate 50 - Very clean light grey
+  cardBg: '#FFFFFF',       // Pure white for cards
+  cardHover: '#F1F5F9',    // Slate 100
+  border: '#E2E8F0',       // Slate 200
+  borderLight: '#F1F5F9',
 
-  // Modern Typography
-  textPrimary: '#0F172A',   // Slate 900 - High contrast text
-  textSecondary: '#475569', // Slate 600 - Secondary text
-  textMuted: '#94A3B8',     // Slate 400 - Muted / hints
+  // Typography
+  textPrimary: '#0F172A',  // Main headings / titles
+  textSecondary: '#475569',// Subtext / labels
+  textMuted: '#94A3B8',    // Placeholder / small hints
   textWhite: '#FFFFFF',
 };
 
@@ -51,33 +43,32 @@ export const SPACING = {
   xxxl: 32,
 };
 
+export const FONTS = {
+  regular: 'System',
+  medium: 'System',
+  bold: 'System',
+};
+
 export const SHADOWS = {
-  subtle: {
+  small: {
     shadowColor: '#0F172A',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.04,
-    shadowRadius: 3,
-    elevation: 1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
   },
   card: {
     shadowColor: '#0F172A',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.06,
-    shadowRadius: 12,
+    shadowOpacity: 0.07,
+    shadowRadius: 10,
     elevation: 3,
   },
-  floatingCard: {
-    shadowColor: '#0A0F1D',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.25,
-    shadowRadius: 20,
-    elevation: 8,
-  },
-  fab: {
-    shadowColor: '#2563EB',
+  floating: {
+    shadowColor: '#1E3A8A',
     shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.35,
-    shadowRadius: 14,
-    elevation: 8,
+    shadowOpacity: 0.25,
+    shadowRadius: 12,
+    elevation: 6,
   },
 };

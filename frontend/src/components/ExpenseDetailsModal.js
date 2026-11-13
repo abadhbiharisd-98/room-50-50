@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
+  Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SPACING, SHADOWS } from '../constants/theme';
@@ -20,6 +21,14 @@ export default function ExpenseDetailsModal({ visible, expense, onClose, onDelet
   const payer = isPaidByA ? userA : userB;
 
   const handleDelete = () => {
+    if (Platform.OS === 'web') {
+      const confirmed = window.confirm(`Are you sure you want to delete "${expense.title}"?`);
+      if (confirmed) {
+        onDelete(expense.id);
+        onClose();
+      }
+      return;
+    }
     Alert.alert(
       'Delete Expense',
       `Are you sure you want to delete "${expense.title}"?`,
