@@ -1,6 +1,6 @@
-# RoomMates – Expense Splitter App 🏠💸
+# room-50-50 – RoomMates (Expense Splitter App 🏠💸)
 
-**RoomMates** ek professional Android application hai jo do roommates ke beech shared monthly expenses ko track, calculate, split (50/50) aur settle karne ke liye banaya gaya hai.
+**RoomMates (Room 50-50)** ek professional Android application hai jo do roommates ke beech shared monthly expenses ko track, calculate, split (50/50) aur settle karne ke liye banaya gaya hai.
 
 ---
 
@@ -93,4 +93,3 @@ Hamara calculation engine `src/utils/calculations.js` floating-point rounding er
 - [ ] **Phase 4: Real-time Socket.IO Synchronization between 2 Phones**
 - [ ] **Phase 5: Settlement Recording & Monthly History Reports**
 - [ ] **Phase 6: Google Play Store EAS Build (.aab) & Production Release**
-
